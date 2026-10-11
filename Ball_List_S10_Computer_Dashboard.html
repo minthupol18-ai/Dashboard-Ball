@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Ball စာရင်း</title>
+<style>
+html,body{width:100%;max-width:100%;margin:0;padding:0;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+html{touch-action:manipulation;}
+*{box-sizing:border-box}
+body{width:100%;min-width:0;background:#f5f2fb;color:#292333;font-family:Arial,"Noto Sans Myanmar",sans-serif}
+.header{background:linear-gradient(135deg,#6c35d9,#8e55e9);color:#fff;text-align:center;padding:20px 12px;font-size:25px;font-weight:bold}
+.header{position:relative}.header .settings-btn{position:absolute;right:14px;top:10px;width:58px;height:58px;margin:0;padding:0;border-radius:18px;background:rgba(255,255,255,.16);color:#fff;font-size:31px;box-shadow:none;line-height:1}
+.container{width:100%;max-width:620px;min-width:0;margin:auto;padding:14px}
+.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:15px}
+.home-btn{border:0;border-radius:18px;padding:22px 10px;min-height:105px;color:#fff;font-size:18px;font-weight:bold;box-shadow:0 4px 14px rgba(40,20,80,.12);cursor:pointer}
+.h1{background:linear-gradient(135deg,#6c35d9,#8e55e9)}.h2{background:linear-gradient(135deg,#2878d8,#49a0ed)}
+.h3{background:linear-gradient(135deg,#159447,#45bd73)}.h4{background:linear-gradient(135deg,#e27b19,#f2a342)}
+.page{display:none}.page.active{display:block}
+.card{background:#fff;border-radius:18px;padding:16px;margin-bottom:15px;box-shadow:0 4px 16px rgba(40,20,80,.09)}
+.title{font-size:21px;font-weight:bold;color:#6738d2;margin-bottom:14px}
+.box{border:1px solid #e3dcef;border-radius:14px;padding:14px;margin-bottom:12px}
+.name{font-size:18px;font-weight:bold;margin-bottom:10px}
+.row{display:grid;grid-template-columns:80px 80px 1fr;gap:8px;align-items:center;margin:9px 0}
+.row.single{grid-template-columns:80px 1fr}
+.lc-row{display:grid;grid-template-columns:90px 1fr;gap:8px;align-items:center;margin:9px 0}
+.lc-sign{display:grid;grid-template-columns:90px 75px 1fr;gap:8px;align-items:center;margin:9px 0}
+label{font-size:15px;font-weight:bold}
+input,select{width:100%;padding:11px;border:1px solid #d8d0e8;border-radius:10px;background:#fff;font-size:16px;outline:none}
+input:focus,select:focus{border-color:#7040d8}
+.total{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:14px;border-radius:13px;background:#f0eaff;font-size:18px;font-weight:bold}
+.total-value{font-size:21px}.positive{color:#159447}.negative{color:#d72e3e}.zero{color:#555}
+.result{background:linear-gradient(135deg,#6c35d9,#8e55e9);color:#fff;border-radius:18px;padding:18px}
+.result-title{font-size:21px;font-weight:bold;margin-bottom:10px}
+.result-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.25);font-size:17px}
+.final{background:#fff;color:#5b2fc4;text-align:center;border-radius:14px;margin-top:15px;padding:15px;font-weight:bold}
+.final-number{display:block;font-size:29px;margin-top:6px}
+button{width:100%;border:0;border-radius:13px;padding:14px;margin-top:12px;background:#6c35d9;color:#fff;font-size:18px;font-weight:bold;cursor:pointer}
+.clear{background:#eee8f8;color:#5630a9}
+.save-btn{background:linear-gradient(135deg,#159447,#45bd73)}
+.notice{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#292333;color:#fff;padding:13px 20px;border-radius:14px;font-size:16px;font-weight:bold;opacity:0;pointer-events:none;transition:.25s;z-index:99;box-shadow:0 5px 18px rgba(0,0,0,.2)}
+.notice.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.week-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.week-controls button{margin:0;padding:11px;font-size:15px}
+.week-current{background:#f0eaff;color:#5630a9}
+.week-summary{background:linear-gradient(135deg,#6c35d9,#8e55e9);color:#fff;border-radius:17px;padding:18px;margin-bottom:15px;text-align:center}
+.week-summary small{display:block;opacity:.9;margin-bottom:5px}
+.week-summary strong{font-size:30px;display:block}
+.week-list-title{font-size:18px;font-weight:bold;color:#6738d2;margin:10px 0}
+.week-card{border:1px solid #e3dcef;border-radius:15px;padding:14px;margin-bottom:12px;background:#fff}
+.week-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.week-date{color:#6738d2;font-size:16px;font-weight:bold}
+.week-value{font-size:22px;font-weight:bold}
+.week-actions{display:flex;justify-content:center;align-items:center;gap:10px;margin:12px auto 0;max-width:420px}
+.week-actions button{margin:0;padding:10px 18px;font-size:15px;width:auto;min-width:120px;flex:0 1 180px}
+.copy-btn{background:#2878d8;text-align:center}.share-btn{background:#159447;text-align:center}.week-all-actions{margin-bottom:12px;max-width:460px}
+.delete-btn{background:#d72e3e}.edit-btn{background:#8e55e9}
+.week-details{margin-top:12px;padding-top:10px;border-top:1px solid #eee;display:none}
+.week-details.show{display:block}
+.detail-row{display:flex;justify-content:space-between;padding:5px 0;font-size:14px}
+.week-empty{text-align:center;padding:25px 10px;color:#777}
+.week-total{background:#f0eaff;border-radius:14px;padding:17px;margin-top:12px;display:flex;justify-content:space-between;font-weight:bold;font-size:18px}
+.confirm-overlay{position:fixed;inset:0;background:rgba(20,10,40,.42);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
+.confirm-overlay.show{display:flex}
+.confirm-box{width:100%;max-width:360px;background:#fff;border-radius:20px;padding:20px;box-shadow:0 12px 35px rgba(0,0,0,.25);text-align:center}
+.confirm-box h3{margin:0 0 8px;color:#6738d2}
+.confirm-box p{margin:0;color:#555}
+.confirm-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.confirm-actions button{margin:0}
+.cancel-btn{background:#eee8f8;color:#5630a9}
+@media(max-width:390px){
+.row{grid-template-columns:65px 65px 1fr}.row.single{grid-template-columns:65px 1fr}.lc-sign{grid-template-columns:75px 65px 1fr}
+}
+
+/* Cloud Sync */
+.cloud-card{background:#fff;border-radius:18px;padding:16px;margin-bottom:15px;box-shadow:0 4px 16px rgba(40,20,80,.09)}
+.cloud-head{display:flex;align-items:center;gap:12px;font-size:21px;font-weight:bold;color:#6738d2}
+.cloud-icon{width:58px;height:58px;border-radius:16px;background:linear-gradient(135deg,#6c35d9,#8e55e9);display:flex;align-items:center;justify-content:center;font-size:31px;flex:none}
+.cloud-email{font-size:16px;font-weight:bold;margin-top:5px;word-break:break-all}
+.cloud-status{margin-top:12px;padding:12px;border-radius:13px;background:#f2f2f2;color:#555;text-align:center;font-size:15px;font-weight:bold}
+.cloud-status.online{background:#eaf9ef;color:#168443}
+.cloud-status.syncing{background:#f0eaff;color:#5b2fc4}
+.cloud-status.offline{background:#fff4e8;color:#a85b00}
+.cloud-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.cloud-actions button{margin:0;font-size:16px}
+.cloud-login{background:linear-gradient(135deg,#6c35d9,#8e55e9)}
+.cloud-register{background:#159447}
+.cloud-logout{background:#eee;color:#5630a9}
+.cloud-refresh{background:#2878d8}
+.cloud-note{font-size:13px;color:#777;text-align:center;margin-top:10px}
+.cloud-overlay{position:fixed;inset:0;background:rgba(20,10,40,.48);display:none;align-items:center;justify-content:center;padding:18px;z-index:120}
+.cloud-overlay.show{display:flex}
+.cloud-modal{width:100%;max-width:390px;background:#fff;border-radius:22px;padding:20px;box-shadow:0 14px 40px rgba(0,0,0,.28)}
+.cloud-modal h3{margin:0;text-align:center;color:#6738d2;font-size:24px}
+.cloud-modal p{margin:8px 0 16px;text-align:center;color:#666;font-size:14px;line-height:1.5}
+.cloud-modal label{display:block;margin:10px 0 6px}
+.cloud-modal input{font-size:17px}
+.cloud-modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.cloud-modal-actions button{margin:0}
+.cloud-error{min-height:20px;margin-top:8px;color:#d72e3e;text-align:center;font-size:14px;font-weight:bold}
+.cloud-switch{text-align:center;margin-top:14px;color:#6738d2;font-weight:bold;cursor:pointer}
+@media(max-width:390px){.cloud-actions{grid-template-columns:1fr}.cloud-modal{padding:16px}}
+
+
+/* Local-only data management */
+.data-tools-card{background:#fff;border-radius:18px;padding:16px;margin-bottom:15px;box-shadow:0 4px 16px rgba(40,20,80,.09)}
+.data-tools-title{font-size:20px;font-weight:bold;color:#6738d2;margin-bottom:10px}
+.data-tools-note{font-size:13px;line-height:1.6;color:#666;margin:8px 0 12px}
+.data-tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.data-tools-grid button{margin:0;font-size:15px}
+.data-tools-full{grid-column:1/-1}
+.data-range{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.data-range label{font-size:13px;color:#666;display:block;margin-bottom:5px}
+.data-range input{width:100%;box-sizing:border-box}
+.data-restore-box{margin-top:14px;padding-top:14px;border-top:1px solid #eee}
+@media(max-width:430px){.data-tools-grid{grid-template-columns:1fr}.data-tools-full{grid-column:auto}}
+
+/* Desktop dashboard layout only — original phone layout remains unchanged */
+.desktop-sidebar{display:none}
+@media (min-width: 900px){
+  body{min-width:900px;overflow-x:auto}
+  .desktop-sidebar{
+    display:flex;position:fixed;left:0;top:0;bottom:0;width:248px;z-index:110;
+    flex-direction:column;gap:10px;padding:24px 16px;
+    background:#fff;border-right:1px solid #e8e0f3;box-shadow:3px 0 18px rgba(40,20,80,.06);
+    overflow-y:auto
+  }
+  .desktop-brand{font-size:23px;font-weight:bold;color:#6738d2;padding:8px 10px 22px;border-bottom:1px solid #eee6f6;margin-bottom:8px}
+  .desktop-nav-btn{width:100%;text-align:left;margin:0;padding:15px 14px;border-radius:12px;
+    background:transparent;color:#40364f;font-size:16px;font-weight:bold;box-shadow:none}
+  .desktop-nav-btn:hover,.desktop-nav-btn.active{background:#f0eaff;color:#6738d2}
+  .header{margin-left:248px;width:calc(100% - 248px);min-height:78px;padding:22px 80px 22px 24px;text-align:left}
+  .header .settings-btn{right:22px;top:10px;width:54px;height:54px}
+  .container{width:calc(100% - 248px);max-width:none;margin-left:248px;padding:26px 30px}
+  .home-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-bottom:22px}
+  .home-btn{min-height:140px;padding:26px 16px;font-size:19px}
+  .card,.cloud-card,.data-tools-card{padding:24px;border-radius:20px;margin-bottom:20px}
+  .title{font-size:23px}
+  #hn.page.active,#lc.page.active{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+  #hn.page.active>.result,#hn.page.active>#hnSaveBtn,#hn.page.active>.clear,
+  #lc.page.active>.result,#lc.page.active>#lcSaveBtn,#lc.page.active>.clear{grid-column:1/-1}
+  #hn.page.active>.card,#lc.page.active>.card{height:100%}
+  .row{grid-template-columns:115px 100px minmax(0,1fr);gap:12px}
+  .row.single{grid-template-columns:115px minmax(0,1fr)}
+  .lc-row{grid-template-columns:125px minmax(0,1fr);gap:12px}
+  .lc-sign{grid-template-columns:125px 100px minmax(0,1fr);gap:12px}
+  label{font-size:16px}
+  input,select{padding:13px;font-size:17px}
+  .total{padding:18px;font-size:20px}
+  .total-value{font-size:23px}
+  .result{padding:24px}
+  .result-title{font-size:24px}
+  .result-row{font-size:19px;padding:13px 0}
+  .final-number{font-size:34px}
+  .week-controls{max-width:720px}
+  .week-actions.week-all-actions{max-width:520px}
+  .week-card{padding:18px}
+  .week-summary{max-width:none;padding:24px}
+  .week-summary strong{font-size:34px}
+  .cloud-modal{max-width:440px}
+}
+
+</style>
+</head>
+<body>
+
+<nav class="desktop-sidebar" aria-label="Desktop dashboard navigation">
+  <div class="desktop-brand">📊 Ball စာရင်း</div>
+  <button class="desktop-nav-btn active" onclick="showPage('home')">🏠 ပင်မစာမျက်နှာ</button>
+  <button class="desktop-nav-btn" onclick="showPage('hn')">🟦 1Hn.KKT စာရင်း</button>
+  <button class="desktop-nav-btn" onclick="showPage('lc')">🟩 LC စာရင်း</button>
+  <button class="desktop-nav-btn" onclick="showPage('hnWeek')">📅 1Hn.KKT တစ်ပတ်စာ</button>
+  <button class="desktop-nav-btn" onclick="showPage('lcWeek')">📅 LC တစ်ပတ်စာ</button>
+  <button class="desktop-nav-btn" onclick="showPage('settings')">⚙️ Settings / Cloud</button>
+</nav>
+
+<div class="header"><span>Ball စာရင်း</span><button class="settings-btn" onclick="showPage('settings')" aria-label="Settings">⚙️</button></div>
+
+<div class="container">
+
+<div id="home" class="page active">
+
+
+
+<div class="home-grid">
+<button class="home-btn h1" onclick="showPage('hn')">1Hn.KKT<br>စာရင်း</button>
+<button class="home-btn h2" onclick="showPage('lc')">LC<br>စာရင်း</button>
+<button class="home-btn h3" onclick="showPage('hnWeek')">1Hn.KKT<br>တစ်ပတ်စာ + / −</button>
+<button class="home-btn h4" onclick="showPage('lcWeek')">LC<br>တစ်ပတ်စာ + / −</button>
+</div>
+</div>
+
+<div id="settings" class="page">
+<div class="card">
+  <div class="title">⚙️ Settings</div>
+  <div class="cloud-card" id="cloudCard">
+    <div class="cloud-head"><div class="cloud-icon">☁️</div><div>Cloud Sync<div id="cloudEmail" class="cloud-email"></div></div></div>
+    <div id="cloudStatus" class="cloud-status">☁️ Cloud Sync မချိတ်ထားသေးပါ</div>
+    <div id="cloudActions" class="cloud-actions">
+      <button class="cloud-login" onclick="openCloudAuth('login')">🔐 Login</button>
+      <button class="cloud-register" onclick="openCloudAuth('register')">🆕 Account အသစ်လုပ်မယ်</button>
+    </div>
+    <div class="cloud-note">အကောင့်တူတူဝင်ထားတဲ့ ဖုန်းများအကြား စာရင်းများ အလိုအလျောက် Sync လုပ်ပေးမယ်</div>
+  </div>
+
+  <div class="data-tools-card">
+    <div class="data-tools-title">🗑️ မှတ်တမ်းဖျက်ရန်</div>
+    <div class="data-tools-note">ဒီအပိုင်းက ဖုန်းထဲက မှတ်တမ်းကိုပဲ ဖျက်ပါမယ်။ ☁️ Cloud / Firebase ထဲက မှတ်တမ်းကို မဖျက်ပါ။ လိုအပ်ရင် နောက်မှ Cloud ကနေ လအလိုက် ပြန်ယူနိုင်ပါတယ်။</div>
+    <div class="data-tools-grid">
+      <button onclick="deleteLocalMonth(0)">🗑️ ဒီလစာ ဖျက်မယ်</button>
+      <button onclick="deleteLocalMonth(1)">🗑️ နောက်လစာ ဖျက်မယ်</button>
+      <button class="data-tools-full" onclick="deleteLocalDateRange()">📅 ရက်စွဲရွေးပြီး ဖျက်မယ်</button>
+    </div>
+    <div class="data-range">
+      <div><label for="localDeleteFrom">စတင်ရက်</label><input id="localDeleteFrom" type="date"></div>
+      <div><label for="localDeleteTo">ပြီးဆုံးရက်</label><input id="localDeleteTo" type="date"></div>
+    </div>
+
+    <div class="data-restore-box">
+      <div class="data-tools-title">☁️ Cloud မှ ပြန်ယူရန်</div>
+      <div class="data-tools-note">Cloud ထဲက data ကို မဖျက်ဘဲ ရွေးထားတဲ့လစာကို Software ထဲ ပြန်ယူပါမယ်။</div>
+      <div class="data-range">
+        <div><label for="cloudRestoreMonth">ပြန်ယူမည့်လ</label><input id="cloudRestoreMonth" type="month"></div>
+      </div>
+      <button class="data-tools-full" onclick="restoreCloudMonth()">📥 ရွေးထားတဲ့လစာ ပြန်ယူမယ်</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="hn" class="page">
+
+<div class="card">
+<div class="title">🟦 Body</div>
+<div class="box">
+<div class="name">1Hn</div>
+<div class="row single"><label>ရောင်းကြေး</label><input id="body1Sale" type="number" inputmode="numeric"></div>
+<div class="row"><label>အနိုင်/အရှုံး</label><select id="body1Sign"><option value="+">＋</option><option value="-">−</option></select><input id="body1" type="number" inputmode="numeric"></div>
+</div>
+<div class="box">
+<div class="name">KKT</div>
+<div class="row single"><label>ရောင်းကြေး</label><input id="body2Sale" type="number" inputmode="numeric"></div>
+<div class="row"><label>အနိုင်/အရှုံး</label><select id="body2Sign"><option value="+">＋</option><option value="-">−</option></select><input id="body2" type="number" inputmode="numeric"></div>
+</div>
+<div class="total"><span>BODY ALL</span><span id="bodyTotal" class="total-value zero">0</span></div>
+</div>
+
+<div class="card">
+<div class="title">🟩 Mix</div>
+<div class="box">
+<div class="name">1Hn</div>
+<div class="row single"><label>ရောင်းကြေး</label><input id="mix1Sale" type="number" inputmode="numeric"></div>
+<div class="row"><label>အနိုင်/အရှုံး</label><select id="mix1Sign"><option value="+">＋</option><option value="-">−</option></select><input id="mix1" type="number" inputmode="numeric"></div>
+<div class="row single"><label>ကော်</label><input id="mix1Kaw" type="number" inputmode="numeric"></div>
+</div>
+<div class="box">
+<div class="name">KKT</div>
+<div class="row single"><label>ရောင်းကြေး</label><input id="mix2Sale" type="number" inputmode="numeric"></div>
+<div class="row"><label>အနိုင်/အရှုံး</label><select id="mix2Sign"><option value="+">＋</option><option value="-">−</option></select><input id="mix2" type="number" inputmode="numeric"></div>
+<div class="row single"><label>ကော်</label><input id="mix2Kaw" type="number" inputmode="numeric"></div>
+</div>
+<div class="total"><span>MIX ALL</span><span id="mixTotal" class="total-value zero">0</span></div>
+</div>
+
+<div class="result">
+<div class="result-title">📊 နောက်ဆုံးရလဒ်</div>
+<div class="result-row"><span>Body ALL</span><span id="resultBody">0</span></div>
+<div class="result-row"><span>Mix ALL</span><span id="resultMix">0</span></div>
+<div class="result-row"><span>ပေါင်း</span><span id="resultSum">0</span></div>
+<div class="result-row"><span>ကော်</span><span id="resultKaw">0</span></div>
+<div class="final">နောက်ဆုံး Total<strong id="finalTotal" class="final-number zero">0</strong></div>
+</div>
+<button id="hnSaveBtn" class="save-btn" onclick="askSave('hn')">💾 စာရင်းသိမ်းမယ်</button>
+<button class="clear" onclick="clearHN()">ရှင်းမယ်</button>
+</div>
+</div>
+
+<div id="lc" class="page">
+
+<div class="card">
+<div class="title">🟦 LC — Body</div>
+<div class="box">
+<div class="name">Body</div>
+<div class="lc-row"><label>ရောင်းကြေး</label><input id="lcBodySale" type="number" inputmode="numeric"></div>
+<div class="lc-sign"><label>အနိုင်/အရှုံး</label><select id="lcBodySign"><option value="+">＋</option><option value="-">−</option></select><input id="lcBodyWin" type="number" inputmode="numeric"></div>
+<div class="lc-row"><label>ကော်</label><input id="lcBodyKaw" type="number" inputmode="numeric"></div>
+</div>
+<div class="total"><span>Body Total</span><span id="lcBodyTotal" class="total-value zero">0</span></div>
+</div>
+
+<div class="card">
+<div class="title">🟩 LC — Mix</div>
+<div class="box">
+<div class="name">Mix</div>
+<div class="lc-row"><label>ရောင်းကြေး</label><input id="lcMixSale" type="number" inputmode="numeric"></div>
+<div class="lc-sign"><label>အနိုင်/အရှုံး</label><select id="lcMixSign"><option value="+">＋</option><option value="-">−</option></select><input id="lcMixWin" type="number" inputmode="numeric"></div>
+<div class="lc-row"><label>ကော်</label><input id="lcMixKaw" type="number" inputmode="numeric"></div>
+</div>
+<div class="total"><span>Mix Total</span><span id="lcMixTotal" class="total-value zero">0</span></div>
+</div>
+
+<div class="result">
+<div class="result-title">📊 LC နောက်ဆုံးရလဒ်</div>
+<div class="result-row"><span>Body ALL</span><span id="lcResultBody">0</span></div>
+<div class="result-row"><span>Mix ALL</span><span id="lcResultMix">0</span></div>
+<div class="result-row"><span>ပေါင်း</span><span id="lcResultSum">0</span></div>
+<div class="result-row"><span>ကော်</span><span id="lcResultKaw">0</span></div>
+<div class="final">နောက်ဆုံး Total<strong id="lcAllTotal" class="final-number zero">0</strong></div>
+</div>
+<button id="lcSaveBtn" class="save-btn" onclick="askSave('lc')">💾 စာရင်းသိမ်းမယ်</button>
+<button class="clear" onclick="clearLC()">ရှင်းမယ်</button>
+</div>
+</div>
+
+<div id="hnWeek" class="page">
+
+<div class="card">
+<div class="title">🟩 1Hn.KKT တစ်ပတ်စာ + / −</div>
+<div class="week-controls">
+<button onclick="changeWeek('hn',-1)">‹ အရင်အပတ်</button>
+<button class="week-current" onclick="setCurrentWeek('hn')">ဒီအပတ်</button>
+<button onclick="changeWeek('hn',1)">နောက်အပတ် ›</button>
+</div>
+<div class="week-actions week-all-actions">
+<button class="copy-btn" onclick="copyWeek('hn')">📋 တစ်ပတ်စာ Copy</button>
+<button class="share-btn" onclick="shareWeek('hn')">📤 တစ်ပတ်စာ Share</button>
+</div>
+<div id="hnWeekRange" class="week-list-title"></div>
+<div class="week-summary"><small>တစ်ပတ်စာ TOTAL</small><strong id="hnWeekTotal">0</strong></div>
+<div class="week-list-title">နေ့အလိုက် ငွေအမှောက်</div>
+<div id="hnWeekList"></div>
+</div>
+</div>
+
+<div id="lcWeek" class="page">
+
+<div class="card">
+<div class="title">🟧 LC တစ်ပတ်စာ + / −</div>
+<div class="week-controls">
+<button onclick="changeWeek('lc',-1)">‹ အရင်အပတ်</button>
+<button class="week-current" onclick="setCurrentWeek('lc')">ဒီအပတ်</button>
+<button onclick="changeWeek('lc',1)">နောက်အပတ် ›</button>
+</div>
+<div class="week-actions week-all-actions">
+<button class="copy-btn" onclick="copyWeek('lc')">📋 တစ်ပတ်စာ Copy</button>
+<button class="share-btn" onclick="shareWeek('lc')">📤 တစ်ပတ်စာ Share</button>
+</div>
+<div id="lcWeekRange" class="week-list-title"></div>
+<div class="week-summary"><small>တစ်ပတ်စာ TOTAL</small><strong id="lcWeekTotal">0</strong></div>
+<div class="week-list-title">နေ့အလိုက် ငွေအမှောက်</div>
+<div id="lcWeekList"></div>
+</div>
+</div>
+
+</div>
+
+
+<div id="cloudAuthOverlay" class="cloud-overlay">
+  <div class="cloud-modal">
+    <h3 id="cloudAuthTitle">☁️ Cloud Sync Login</h3>
+    <p id="cloudAuthText">ရှိပြီးသား Account ဖြင့် ဝင်ရောက်ပါ။</p>
+    <label for="cloudEmailInput">Email</label>
+    <input id="cloudEmailInput" type="email" autocomplete="email" placeholder="example@gmail.com">
+    <label for="cloudPasswordInput">Password</label>
+    <input id="cloudPasswordInput" type="password" autocomplete="current-password" placeholder="Password">
+    <div id="cloudConfirmWrap" style="display:none">
+      <label for="cloudConfirmInput">Password ထပ်ရေးပါ</label>
+      <input id="cloudConfirmInput" type="password" autocomplete="new-password" placeholder="Password ထပ်ရေးပါ">
+    </div>
+    <div id="cloudAuthError" class="cloud-error"></div>
+    <div class="cloud-modal-actions">
+      <button class="cancel-btn" onclick="closeCloudAuth()">Cancel</button>
+      <button id="cloudSubmitBtn" class="cloud-login" onclick="submitCloudAuth()">Login</button>
+    </div>
+    <div id="cloudForgot" class="cloud-switch" onclick="resetCloudPassword()">Password မေ့သွားရင် Email ဖြင့် ပြန်သတ်မှတ်မယ်</div>
+    <div id="cloudSwitch" class="cloud-switch" onclick="switchCloudAuth()">Account အသစ်လုပ်မယ်</div>
+  </div>
+</div>
+
+<div id="notice" class="notice"></div>
+
+<div id="confirmOverlay" class="confirm-overlay">
+<div class="confirm-box">
+<h3 id="confirmTitle">စာရင်းသိမ်းမလား?</h3>
+<p id="confirmText">ဒီစာရင်းကို သိမ်းမယ်ဆိုရင် OK ကိုနှိပ်ပါ။</p>
+<div class="confirm-actions">
+<button class="cancel-btn" onclick="closeConfirm()">Cancel</button>
+<button class="delete-btn" id="confirmOk" onclick="confirmAction()">OK</button>
+</div>
+</div>
+</div>
+
+
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyAVfmzvGJbC4FOybvfTTP49H_u6YNANs3k",
+  authDomain: "money-ledger-b5091.firebaseapp.com",
+  projectId: "money-ledger-b5091",
+  storageBucket: "money-ledger-b5091.firebasestorage.app",
+  messagingSenderId: "935799169958",
+  appId: "1:935799169958:web:bb950202d0f70f526e6567",
+  measurementId: "G-P9DS9D51C0"
+};
+firebase.initializeApp(firebaseConfig);
+const firebaseAuth=firebase.auth();
+const firestore=firebase.firestore();
+let cloudMode='login';
+let cloudUnsubs=[];
+let cloudUid=null;
+let cloudReady=false;
+
+function cloudRef(type,id){
+  return firestore.collection('users').doc(cloudUid).collection(type==='hn'?'hnRecords':'lcRecords').doc(String(id));
+}
+function cloudDeletedRef(type,id){
+  return firestore.collection('users').doc(cloudUid).collection('deleted').doc(type+'_'+String(id));
+}
+function setCloudStatus(text,kind=''){
+  const e=document.getElementById('cloudStatus'); if(!e)return;
+  e.textContent=text; e.className='cloud-status'+(kind?' '+kind:'');
+}
+function renderCloudCard(user){
+  const email=document.getElementById('cloudEmail');
+  const actions=document.getElementById('cloudActions');
+  if(!user){
+    email.textContent='';
+    actions.innerHTML='<button class="cloud-login" onclick="openCloudAuth(\'login\')">🔐 Login</button><button class="cloud-register" onclick="openCloudAuth(\'register\')">🆕 Account အသစ်လုပ်မယ်</button>';
+    setCloudStatus('☁️ Cloud Sync မချိတ်ထားသေးပါ');
+    return;
+  }
+  email.textContent=user.email||'';
+  actions.innerHTML='<button class="cloud-logout" onclick="cloudLogout()">Logout</button><button class="cloud-refresh" onclick="manualCloudSync()">🔄 Sync လုပ်မယ်</button>';
+  setCloudStatus('☁️ Cloud Sync အလိုအလျောက်သိမ်းနေပါပြီ','online');
+}
+
+function openCloudAuth(mode){
+  cloudMode=mode;
+  document.getElementById('cloudAuthOverlay').classList.add('show');
+  document.getElementById('cloudEmailInput').value='';
+  document.getElementById('cloudPasswordInput').value='';
+  document.getElementById('cloudConfirmInput').value='';
+  document.getElementById('cloudAuthError').textContent='';
+  updateCloudAuthModal();
+}
+function closeCloudAuth(){document.getElementById('cloudAuthOverlay').classList.remove('show')}
+function switchCloudAuth(){openCloudAuth(cloudMode==='login'?'register':'login')}
+function updateCloudAuthModal(){
+  const reg=cloudMode==='register';
+  document.getElementById('cloudAuthTitle').textContent=reg?'☁️ Account အသစ်လုပ်မယ်':'☁️ Cloud Sync Login';
+  document.getElementById('cloudAuthText').textContent=reg?'Email နဲ့ Password အသစ်ဖန်တီးပြီး Cloud Sync Account လုပ်ပါ။':'ရှိပြီးသား Account ဖြင့် ဝင်ရောက်ပါ။';
+  document.getElementById('cloudConfirmWrap').style.display=reg?'block':'none';
+  document.getElementById('cloudSubmitBtn').textContent=reg?'Account လုပ်မယ်':'Login';
+  document.getElementById('cloudForgot').style.display=reg?'none':'block';
+  document.getElementById('cloudSwitch').textContent=reg?'ရှိပြီးသား Account နဲ့ Login ဝင်မယ်':'Account အသစ်လုပ်မယ်';
+}
+function cloudErrorMessage(e){
+ const m={
+ 'auth/email-already-in-use':'ဒီ Email နဲ့ Account ရှိပြီးသားပါ။ Login ဝင်ပါ။',
+ 'auth/invalid-email':'Email မှားနေပါတယ်။',
+ 'auth/weak-password':'Password ပိုမိုခိုင်မာအောင် ထည့်ပါ။',
+ 'auth/invalid-credential':'Email သို့မဟုတ် Password မှားနေပါတယ်။',
+ 'auth/user-not-found':'ဒီ Email နဲ့ Account မတွေ့ပါ။',
+ 'auth/wrong-password':'Password မှားနေပါတယ်။',
+ 'auth/too-many-requests':'ခဏစောင့်ပြီး ထပ်ကြိုးစားပါ။',
+ 'auth/network-request-failed':'Internet connection ကို စစ်ပေးပါ။'
+ }; return m[e&&e.code]||'Cloud Sync လုပ်ရာမှာ အမှားတစ်ခု ဖြစ်သွားပါတယ်။';
+}
+async function submitCloudAuth(){
+ const email=document.getElementById('cloudEmailInput').value.trim();
+ const pass=document.getElementById('cloudPasswordInput').value;
+ const confirm=document.getElementById('cloudConfirmInput').value;
+ const err=document.getElementById('cloudAuthError'); err.textContent='';
+ if(!email||!pass){err.textContent='Email နဲ့ Password ထည့်ပါ။';return}
+ if(cloudMode==='register'&&pass!==confirm){err.textContent='Password နှစ်ခု မတူပါ။';return}
+ if(cloudMode==='register'&&pass.length<6){err.textContent='Password အနည်းဆုံး 6 လုံး ထည့်ပါ။';return}
+ document.getElementById('cloudSubmitBtn').disabled=true;
+ try{
+   if(cloudMode==='register') await firebaseAuth.createUserWithEmailAndPassword(email,pass);
+   else await firebaseAuth.signInWithEmailAndPassword(email,pass);
+   closeCloudAuth();
+ }catch(e){err.textContent=cloudErrorMessage(e)}
+ finally{document.getElementById('cloudSubmitBtn').disabled=false}
+}
+async function resetCloudPassword(){
+ const email=document.getElementById('cloudEmailInput').value.trim();
+ const err=document.getElementById('cloudAuthError');
+ if(!email){err.textContent='Password ပြန်သတ်မှတ်ဖို့ Email ထည့်ပါ။';return}
+ try{await firebaseAuth.sendPasswordResetEmail(email);err.textContent='Password ပြန်သတ်မှတ်ရန် Email ပို့ပြီးပါပြီ။';err.style.color='#168443'}catch(e){err.textContent=cloudErrorMessage(e);err.style.color='#d72e3e'}
+}
+
+async function initialCloudMerge(type){
+ if(!cloudUid)return;
+ const key=type==='hn'?'hnRecords':'lcRecords';
+ const local=JSON.parse(localStorage.getItem(key)||'[]');
+ const hidden=getLocalHidden();
+ const hiddenSet=new Set(hidden[type]||[]);
+ const deletedSnap=await firestore.collection('users').doc(cloudUid).collection('deleted').get();
+ const deleted=new Set(deletedSnap.docs.filter(d=>d.id.startsWith(type+'_')).map(d=>d.id.slice(type.length+1)));
+ const snap=await firestore.collection('users').doc(cloudUid).collection(type==='hn'?'hnRecords':'lcRecords').get();
+ const cloudMap=new Map(snap.docs.map(d=>[d.id,d.data()]));
+ const batch=firestore.batch(); let writes=0;
+ for(const item of local){
+   const id=String(item.id);
+   if(deleted.has(id)||hiddenSet.has(id))continue;
+   if(!cloudMap.has(id)){batch.set(cloudRef(type,id),item);writes++}
+ }
+ if(writes)await batch.commit();
+ const after=await firestore.collection('users').doc(cloudUid).collection(type==='hn'?'hnRecords':'lcRecords').get();
+ const merged=after.docs.filter(d=>!deleted.has(d.id)&&!hiddenSet.has(d.id)).map(d=>d.data());
+ merged.sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+ localStorage.setItem(key,JSON.stringify(merged));
+}
+
+function getLocalHidden(){
+ try{return JSON.parse(localStorage.getItem('localHiddenRecords')||'{"hn":[],"lc":[]}')}catch(e){return {hn:[],lc:[]}}
+}
+function setLocalHidden(v){localStorage.setItem('localHiddenRecords',JSON.stringify(v))}
+function addLocalHidden(type,ids){
+ const h=getLocalHidden(); const set=new Set(h[type]||[]); ids.forEach(id=>set.add(String(id))); h[type]=Array.from(set); setLocalHidden(h);
+}
+function removeLocalHidden(type,ids){
+ const h=getLocalHidden(); const remove=new Set(ids.map(String)); h[type]=(h[type]||[]).filter(id=>!remove.has(String(id))); setLocalHidden(h);
+}
+function monthBounds(offset){
+ const now=new Date();
+ const first=new Date(now.getFullYear(),now.getMonth()-offset,1);
+ const last=new Date(now.getFullYear(),now.getMonth()-offset+1,1);
+ return {first,last};
+}
+function inRange(item,from,to){
+ const d=new Date(item.date); return !isNaN(d)&&d>=from&&d<to;
+}
+function deleteLocalMonth(offset){
+ const b=monthBounds(offset);
+ deleteLocalRange(b.first,b.last,offset===0?'ဒီလစာ':'နောက်လစာ');
+}
+function deleteLocalDateRange(){
+ const f=document.getElementById('localDeleteFrom').value; const t=document.getElementById('localDeleteTo').value;
+ if(!f||!t){notice('စတင်ရက်နဲ့ ပြီးဆုံးရက် ရွေးပါ');return}
+ const from=new Date(f+'T00:00:00'); const to=new Date(t+'T00:00:00'); to.setDate(to.getDate()+1);
+ if(from>=to){notice('ရက်စွဲ အစီအစဉ် မမှန်ပါ');return}
+ deleteLocalRange(from,to,'ရွေးထားတဲ့ရက်စွဲ');
+}
+function deleteLocalRange(from,to,label){
+ const targets={hn:[],lc:[]}; let total=0;
+ ['hn','lc'].forEach(type=>{
+   const key=type==='hn'?'hnRecords':'lcRecords'; const list=JSON.parse(localStorage.getItem(key)||'[]');
+   targets[type]=list.filter(x=>inRange(x,from,to)).map(x=>String(x.id)); total+=targets[type].length;
+ });
+ if(!total){notice('ဖျက်ရန် မှတ်တမ်း မတွေ့ပါ');return}
+ const ok=confirm('⚠️ '+label+' ကို Software ထဲမှ '+total+' ခု ဖျက်မည်။\n\n☁️ Cloud / Firebase ထဲက data ကို မဖျက်ပါ။\n\nဆက်လုပ်မလား?');
+ if(!ok)return;
+ ['hn','lc'].forEach(type=>{
+   if(!targets[type].length)return;
+   const key=type==='hn'?'hnRecords':'lcRecords'; const ids=new Set(targets[type]);
+   const list=JSON.parse(localStorage.getItem(key)||'[]');
+   localStorage.setItem(key,JSON.stringify(list.filter(x=>!ids.has(String(x.id)))));
+   addLocalHidden(type,targets[type]);
+ });
+ renderHNWeek(); renderLCWeek(); calculateHN(); calculateLC();
+ notice('✓ '+total+' ခုကို Software ထဲမှပဲ ဖျက်ပြီးပါပြီ');
+}
+
+async function restoreCloudMonth(){
+ if(!firebaseAuth.currentUser){openCloudAuth('login');return}
+ const val=document.getElementById('cloudRestoreMonth').value;
+ if(!val){notice('ပြန်ယူမည့်လကို ရွေးပါ');return}
+ const [y,m]=val.split('-').map(Number);
+ const from=new Date(y,m-1,1); const to=new Date(y,m,1);
+ try{
+   setCloudStatus('☁️ Cloud မှ '+y+'-'+String(m).padStart(2,'0')+' လစာ ပြန်ယူနေပါပြီ…','syncing');
+   let total=0;
+   for(const type of ['hn','lc']){
+     const key=type==='hn'?'hnRecords':'lcRecords';
+     const snap=await firestore.collection('users').doc(cloudUid).collection(type==='hn'?'hnRecords':'lcRecords').get();
+     const deletedSnap=await firestore.collection('users').doc(cloudUid).collection('deleted').get();
+     const deleted=new Set(deletedSnap.docs.filter(d=>d.id.startsWith(type+'_')).map(d=>d.id.slice(type.length+1)));
+     const rows=snap.docs.map(d=>d.data()).filter(item=>!deleted.has(String(item.id))&&inRange(item,from,to));
+     const hidden=getLocalHidden(); const hiddenSet=new Set(hidden[type]||[]);
+     const existing=JSON.parse(localStorage.getItem(key)||'[]'); const map=new Map(existing.map(x=>[String(x.id),x]));
+     rows.forEach(item=>{map.set(String(item.id),item); hiddenSet.delete(String(item.id)); total++});
+     hidden[type]=Array.from(hiddenSet);
+     const merged=Array.from(map.values()).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+     localStorage.setItem(key,JSON.stringify(merged));
+     setLocalHidden(hidden);
+   }
+   renderHNWeek(); renderLCWeek(); calculateHN(); calculateLC();
+   setCloudStatus('☁️ Cloud Sync အဆင်ပြေပါတယ်','online');
+   notice(total?'✓ '+total+' ခုကို Cloud မှ ပြန်ယူပြီးပါပြီ':'ဒီလစာ Cloud data မတွေ့ပါ');
+ }catch(e){setCloudStatus('☁️ Cloud မှ ပြန်ယူရာမှာ အမှားဖြစ်နေပါတယ်','offline');notice('Cloud data ပြန်ယူမရသေးပါ')}
+}
+
+function startCloudListeners(){
+ cloudUnsubs.forEach(fn=>{try{fn()}catch(e){}}); cloudUnsubs=[];
+ if(!cloudUid)return;
+ ['hn','lc'].forEach(type=>{
+   const key=type==='hn'?'hnRecords':'lcRecords';
+   const ref=firestore.collection('users').doc(cloudUid).collection(type==='hn'?'hnRecords':'lcRecords');
+   const unsub=ref.onSnapshot(snap=>{
+     const hiddenSet=new Set((getLocalHidden()[type]||[]).map(String));
+     const rows=snap.docs.map(d=>d.data()).filter(x=>!hiddenSet.has(String(x.id))).sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+     localStorage.setItem(key,JSON.stringify(rows));
+     if(document.getElementById(type==='hn'?'hnWeek':'lcWeek').classList.contains('active')) type==='hn'?renderHNWeek():renderLCWeek();
+     setCloudStatus('☁️ Cloud Sync အလိုအလျောက်သိမ်းနေပါပြီ','online');
+   },()=>setCloudStatus('☁️ Sync ခဏမရသေးပါ — Internet ပြန်ရင် အလိုအလျောက်ဆက်မယ်','offline'));
+   cloudUnsubs.push(unsub);
+ });
+ const delUnsub=firestore.collection('users').doc(cloudUid).collection('deleted').onSnapshot(snap=>{
+   let hn=JSON.parse(localStorage.getItem('hnRecords')||'[]');
+   let lc=JSON.parse(localStorage.getItem('lcRecords')||'[]');
+   snap.docChanges().forEach(ch=>{if(ch.type!=='added'&&ch.type!=='modified')return; const id=ch.doc.id; if(id.startsWith('hn_'))hn=hn.filter(x=>String(x.id)!==id.slice(3)); if(id.startsWith('lc_'))lc=lc.filter(x=>String(x.id)!==id.slice(3));});
+   localStorage.setItem('hnRecords',JSON.stringify(hn)); localStorage.setItem('lcRecords',JSON.stringify(lc));
+   if(document.getElementById('hnWeek').classList.contains('active'))renderHNWeek();
+   if(document.getElementById('lcWeek').classList.contains('active'))renderLCWeek();
+ });
+ cloudUnsubs.push(delUnsub);
+}
+async function startCloudSync(user){
+ cloudUid=user.uid; cloudReady=false; renderCloudCard(user); setCloudStatus('☁️ Cloud Sync ချိတ်နေပါပြီ…','syncing');
+ try{
+   await initialCloudMerge('hn'); await initialCloudMerge('lc');
+   cloudReady=true; await flushPendingCloudOps(); startCloudListeners();
+   renderCloudCard(user);
+   calculateHN();calculateLC();renderHNWeek();renderLCWeek();
+ }catch(e){setCloudStatus('☁️ Sync မအောင်မြင်သေးပါ — Internet ကို စစ်ပါ','offline')}
+}
+async function manualCloudSync(){if(!firebaseAuth.currentUser){openCloudAuth('login');return} await startCloudSync(firebaseAuth.currentUser);notice('☁️ Cloud Sync ပြီးပါပြီ')}
+async function cloudLogout(){
+ cloudUnsubs.forEach(fn=>{try{fn()}catch(e){}});cloudUnsubs=[];cloudReady=false;cloudUid=null;
+ await firebaseAuth.signOut();renderCloudCard(null);notice('✓ Logout ပြီးပါပြီ');
+}
+function getPendingCloudOps(){return JSON.parse(localStorage.getItem('pendingCloudOps')||'[]')}
+function setPendingCloudOps(v){localStorage.setItem('pendingCloudOps',JSON.stringify(v))}
+function queueCloudOp(op){
+  const q=getPendingCloudOps();
+  const tagged={...op,ownerUid:op.ownerUid!==undefined?op.ownerUid:(cloudUid||null)};
+  q.push(tagged);
+  setPendingCloudOps(q);
+}
+async function applyCloudOp(op){
+ if(op.type==='write'){await cloudDeletedRef(op.kind,op.id).delete().catch(()=>{});await cloudRef(op.kind,op.id).set(op.item)}
+ else {await cloudRef(op.kind,op.id).delete();await cloudDeletedRef(op.kind,op.id).set({deletedAt:firebase.firestore.FieldValue.serverTimestamp()})}
+}
+async function flushPendingCloudOps(){
+ if(!cloudUid)return;
+ let q=getPendingCloudOps();
+ while(q.length){
+   try{await applyCloudOp(q[0]);q.shift();setPendingCloudOps(q)}catch(e){setCloudStatus('☁️ Internet ပြန်ရရင် အလိုအလျောက် Sync ဆက်မယ်','offline');break}
+ }
+}
+async function cloudWrite(type,item){
+ if(!cloudUid){queueCloudOp({type:'write',kind:type,id:String(item.id),item:item});return}
+ const op={type:'write',kind:type,id:String(item.id),item:item,ownerUid:cloudUid||null};
+ try{await applyCloudOp(op);await flushPendingCloudOps()}catch(e){queueCloudOp(op);setCloudStatus('☁️ Local သိမ်းပြီး Internet ပြန်ရရင် Cloud Sync လုပ်မယ်','offline')}
+}
+async function cloudDelete(type,id){
+ const op={type:'delete',kind:type,id:String(id),ownerUid:cloudUid||null};
+ if(!cloudUid){queueCloudOp(op);return}
+ try{await applyCloudOp(op);await flushPendingCloudOps()}catch(e){queueCloudOp(op);setCloudStatus('☁️ Delete ကို Local မှာသိမ်းထားပြီး Internet ပြန်ရရင် Sync မယ်','offline')}
+}
+window.addEventListener('online',()=>{if(firebaseAuth.currentUser){setCloudStatus('☁️ Cloud Sync ပြန်ချိတ်နေပါပြီ…','syncing');flushPendingCloudOps().then(()=>startCloudSync(firebaseAuth.currentUser))}});
+
+firebaseAuth.onAuthStateChanged(user=>{
+ if(user)startCloudSync(user); else {cloudUid=null;cloudReady=false;cloudUnsubs.forEach(fn=>{try{fn()}catch(e){}});cloudUnsubs=[];renderCloudCard(null)}
+});
+</script>
+
+<script>
+let selectedWeek={hn:0,lc:0};
+let deleteTarget=null;
+
+let handlingPopState=false;
+function showPage(id){
+if(!handlingPopState && id!=="home") history.pushState({appPage:id},"");
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+document.querySelectorAll(".desktop-nav-btn").forEach(b=>b.classList.toggle("active",b.getAttribute("onclick")===("showPage('"+id+"')")));
+if(id==="hnWeek")renderHNWeek();
+if(id==="lcWeek")renderLCWeek();
+if((id==="home" || id==="settings") && firebaseAuth.currentUser)renderCloudCard(firebaseAuth.currentUser);
+window.scrollTo(0,0);
+}
+window.addEventListener("popstate",function(){
+handlingPopState=true;
+showPage("home");
+history.replaceState({appPage:"home"},"");
+handlingPopState=false;
+});
+history.replaceState({appPage:"home"},"");
+
+function number(id){return Number(document.getElementById(id).value)||0}
+function signed(signId,valueId){return document.getElementById(signId).value==="-"?-number(valueId):number(valueId)}
+function formatMoney(v){
+const n=Math.abs(v).toLocaleString("en-US");
+return v>0?"+"+n:v<0?"−"+n:"0";
+}
+function showValue(id,v){
+const e=document.getElementById(id);
+e.textContent=formatMoney(v);
+e.classList.remove("positive","negative","zero");
+e.classList.add(v>0?"positive":v<0?"negative":"zero");
+}
+function nowEnglish(){
+return new Date().toLocaleString("en-US",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true});
+}
+function notice(msg){
+const n=document.getElementById("notice");
+n.textContent=msg;n.classList.add("show");
+clearTimeout(window.noticeTimer);
+window.noticeTimer=setTimeout(()=>n.classList.remove("show"),1800);
+}
+
+function focusNextAmount(id){
+const el=document.getElementById(id);
+if(el){el.focus();if(el.select)el.select();}
+}
+function setupMoneyNext(){
+const pairs={
+ body1Sale:"body1",
+ body2Sale:"body2",
+ mix1Sale:"mix1",
+ mix2Sale:"mix2",
+ lcBodySale:"lcBodyWin",
+ lcMixSale:"lcMixWin"
+};
+Object.keys(pairs).forEach(function(from){
+ const el=document.getElementById(from);
+ if(!el)return;
+ el.addEventListener("keydown",function(e){
+  if(e.key==="Enter"){
+   e.preventDefault();
+   focusNextAmount(pairs[from]);
+  }
+ });
+});
+}
+
+function calculateHN(){
+const body1=signed("body1Sign","body1"),body2=signed("body2Sign","body2");
+const body=body1+body2;
+const mix1=signed("mix1Sign","mix1"),mix2=signed("mix2Sign","mix2");
+const mix=mix1+mix2;
+
+// နောက်ဆုံးရလဒ်အတွက် Body ALL / Mix ALL ကို ၂ နဲ့စားမယ်
+const bodyFinal=body/2;
+const mixFinal=mix/2;
+const sum=bodyFinal+mixFinal;
+const kaw=Math.abs(number("mix1Kaw"))+Math.abs(number("mix2Kaw"));
+const total=sum-kaw;
+
+// အပေါ်က BODY ALL / MIX ALL မူရင်းတန်ဖိုးကို မပြောင်းဘဲထားမယ်
+showValue("bodyTotal",body);
+showValue("mixTotal",mix);
+
+// နောက်ဆုံးရလဒ်ထဲမှာသာ ၂ နဲ့စားထားတဲ့တန်ဖိုးကိုပြမယ်
+showValue("resultBody",bodyFinal);
+showValue("resultMix",mixFinal);
+showValue("resultSum",sum);
+showValue("resultKaw",-kaw);
+showValue("finalTotal",total);
+
+return {body1Sale:number("body1Sale"),body1Sign:document.getElementById("body1Sign").value,body1:number("body1"),body2Sale:number("body2Sale"),body2Sign:document.getElementById("body2Sign").value,body2:number("body2"),mix1Sale:number("mix1Sale"),mix1Sign:document.getElementById("mix1Sign").value,mix1:number("mix1"),mix1Kaw:number("mix1Kaw"),mix2Sale:number("mix2Sale"),mix2Sign:document.getElementById("mix2Sign").value,mix2:number("mix2"),mix2Kaw:number("mix2Kaw"),body,mix,bodyFinal,mixFinal,sum,kaw,total};
+}
+
+function calculateLC(){
+const body=signed("lcBodySign","lcBodyWin"),mix=signed("lcMixSign","lcMixWin");
+const sum=body+mix,kaw=Math.abs(number("lcBodyKaw"))+Math.abs(number("lcMixKaw"));
+const total=sum-kaw;
+showValue("lcBodyTotal",body);showValue("lcMixTotal",mix);
+showValue("lcResultBody",body);showValue("lcResultMix",mix);
+showValue("lcResultSum",sum);showValue("lcResultKaw",-kaw);showValue("lcAllTotal",total);
+return {bodySale:number("lcBodySale"),bodySign:document.getElementById("lcBodySign").value,bodyWin:number("lcBodyWin"),bodyKaw:number("lcBodyKaw"),mixSale:number("lcMixSale"),mixSign:document.getElementById("lcMixSign").value,mixWin:number("lcMixWin"),mixKaw:number("lcMixKaw"),body,mix,sum,kaw,total};
+}
+
+function saveHN(editId=null){
+const r=calculateHN();
+if(r.total===0){notice("သိမ်းရန် စာရင်းမရှိသေးပါ");return}
+const list=JSON.parse(localStorage.getItem("hnRecords")||"[]");
+if(editId!==null){
+ const idx=list.findIndex(x=>x.id===editId);
+ if(idx!==-1){list[idx]={...list[idx],...r};localStorage.setItem("hnRecords",JSON.stringify(list));cloudWrite("hn",list[idx]);editTarget=null;document.getElementById("hnSaveBtn").textContent="💾 စာရင်းသိမ်းမယ်";notice("✓ စာရင်းပြင်ပြီးပါပြီ");renderHNWeek();return;}
+}
+list.push({id:Date.now(),date:new Date().toISOString(),...r});
+localStorage.setItem("hnRecords",JSON.stringify(list));
+cloudWrite("hn",list[list.length-1]);
+notice("✓ စာရင်းသိမ်းပြီးပါပြီ");
+}
+function saveLC(editId=null){
+const r=calculateLC();
+if(r.total===0){notice("သိမ်းရန် စာရင်းမရှိသေးပါ");return}
+const list=JSON.parse(localStorage.getItem("lcRecords")||"[]");
+if(editId!==null){
+ const idx=list.findIndex(x=>x.id===editId);
+ if(idx!==-1){list[idx]={...list[idx],...r};localStorage.setItem("lcRecords",JSON.stringify(list));cloudWrite("lc",list[idx]);editTarget=null;document.getElementById("lcSaveBtn").textContent="💾 စာရင်းသိမ်းမယ်";notice("✓ စာရင်းပြင်ပြီးပါပြီ");renderLCWeek();return;}
+}
+list.push({id:Date.now(),date:new Date().toISOString(),...r});
+localStorage.setItem("lcRecords",JSON.stringify(list));
+cloudWrite("lc",list[list.length-1]);
+notice("✓ စာရင်းသိမ်းပြီးပါပြီ");
+}
+let pendingSaveType=null;
+let editTarget=null;
+function askSave(type){
+const r=type==="hn"?calculateHN():calculateLC();
+if(r.total===0){notice("သိမ်းရန် စာရင်းမရှိသေးပါ");return}
+pendingSaveType=type;
+deleteTarget=null;
+document.getElementById("confirmTitle").textContent=editTarget?"ပြင်ပြီး စာရင်းသိမ်းမလား?":"စာရင်းသိမ်းမလား?";
+document.getElementById("confirmText").textContent=editTarget?"ပြင်ထားတဲ့ စာရင်းကို ပြန်သိမ်းမယ်ဆိုရင် OK ကိုနှိပ်ပါ။":"ဒီစာရင်းကို သိမ်းမယ်ဆိုရင် OK ကိုနှိပ်ပါ။";
+document.getElementById("confirmOk").textContent="OK";
+document.getElementById("confirmOk").className="save-btn";
+document.getElementById("confirmOverlay").classList.add("show");
+}
+function confirmAction(){
+if(pendingSaveType){
+const t=pendingSaveType;
+pendingSaveType=null;
+document.getElementById("confirmOverlay").classList.remove("show");
+t==="hn"?saveHN(editTarget&&editTarget.type==="hn"?editTarget.id:null):saveLC(editTarget&&editTarget.type==="lc"?editTarget.id:null);
+return;
+}
+confirmDelete();
+}
+function clearHN(){
+editTarget=null;document.getElementById("hnSaveBtn").textContent="💾 စာရင်းသိမ်းမယ်";
+document.querySelectorAll("#hn input").forEach(i=>i.value="");
+document.querySelectorAll("#hn select").forEach(s=>s.value="+");
+calculateHN();
+}
+function clearLC(){
+editTarget=null;document.getElementById("lcSaveBtn").textContent="💾 စာရင်းသိမ်းမယ်";
+document.querySelectorAll("#lc input").forEach(i=>i.value="");
+document.querySelectorAll("#lc select").forEach(s=>s.value="+");
+calculateLC();
+}
+
+function startOfWeek(date){
+const d=new Date(date),day=d.getDay(),diff=day===0?6:day-1;
+d.setDate(d.getDate()-diff);d.setHours(0,0,0,0);return d;
+}
+
+/*
+  Weekly settlement cycle:
+  - Monday is the settlement day for the previous Monday-Sunday period.
+  - The Monday morning entry is for Sunday, so on Monday the "current"
+    settlement week is the previous Monday-Sunday period.
+  - Tuesday-Sunday use the Monday-Sunday period containing today.
+*/
+function settlementBaseWeek(){
+const today=new Date();
+let d=startOfWeek(today);
+if(today.getDay()===1)d.setDate(d.getDate()-7);
+return d;
+}
+function weekStartFor(type){
+const d=settlementBaseWeek();
+d.setDate(d.getDate()+selectedWeek[type]*7);
+return d;
+}
+function weekEnd(start){const d=new Date(start);d.setDate(d.getDate()+7);return d}
+function rangeText(start){
+const end=new Date(start);end.setDate(end.getDate()+6);
+const f=d=>d.toLocaleDateString("en-US",{month:"short",day:"2-digit",year:"numeric"});
+return f(start)+" - "+f(end);
+}
+function setCurrentWeek(type){selectedWeek[type]=0;type==="hn"?renderHNWeek():renderLCWeek()}
+function changeWeek(type,dir){selectedWeek[type]+=dir;type==="hn"?renderHNWeek():renderLCWeek()}
+
+function localDateKey(d){
+const x=new Date(d);
+return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0");
+}
+
+// A morning entry belongs to the previous accounting day.
+// Example: Monday morning (Oct 5) = Sunday accounting date (Oct 4).
+function accountingDate(item){
+const d=new Date(item.date);
+d.setDate(d.getDate()-1);
+d.setHours(0,0,0,0);
+return d;
+}
+
+function renderWeek(type){
+const storageId=type==="hn"?"hnRecords":"lcRecords";
+const listId=type==="hn"?"hnWeekList":"lcWeekList";
+const rangeId=type==="hn"?"hnWeekRange":"lcWeekRange";
+const totalId=type==="hn"?"hnWeekTotal":"lcWeekTotal";
+const list=JSON.parse(localStorage.getItem(storageId)||"[]");
+const start=weekStartFor(type),end=weekEnd(start);
+const week=list.filter(item=>{
+ const d=accountingDate(item);
+ return d>=start&&d<end;
+}).sort((a,b)=>new Date(a.date)-new Date(b.date));
+const byDay={};
+week.forEach(item=>{
+ const key=localDateKey(accountingDate(item));
+ byDay[key]=item;
+});
+document.getElementById(rangeId).textContent=rangeText(start)+" (ငွေရှင်းပတ်)";
+const box=document.getElementById(listId);box.innerHTML="";
+let total=week.reduce((sum,item)=>sum+(Number(item.total)||0),0);
+for(let i=0;i<7;i++){
+ const d=new Date(start);d.setDate(d.getDate()+i);
+ const key=localDateKey(d);
+ const item=byDay[key]||null;
+ const amount=item?Number(item.total)||0:0;
+ const div=document.createElement("div");div.className="week-card";
+ if(!item){
+  div.innerHTML='<div class="week-head"><span class="week-date">'+d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"2-digit"})+'</span><span class="week-value zero">0</span></div><div class="week-empty" style="padding:12px 4px">စာရင်းမရှိသေးပါ</div>';
+ }else{
+  const detail=type==="hn"
+  ?[
+  ["စာရင်းရက်",d.toLocaleDateString("en-US",{year:"numeric",month:"2-digit",day:"2-digit",weekday:"short"})],
+  ["စာရင်းလုပ်ချိန်",new Date(item.date).toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true})],
+  ["1Hn ရောင်းကြေး",formatMoney(item.body1Sale)],
+  ["1Hn အနိုင်/အရှုံး",(item.body1Sign==="-"?"−":"+")+Number(item.body1).toLocaleString("en-US")],
+  ["KKT ရောင်းကြေး",formatMoney(item.body2Sale)],
+  ["KKT အနိုင်/အရှုံး",(item.body2Sign==="-"?"−":"+")+Number(item.body2).toLocaleString("en-US")],
+  ["Body ALL",formatMoney(item.body)],
+  ["Mix ALL",formatMoney(item.mix)],
+  ["ပေါင်း",formatMoney(item.sum)],
+  ["ကော်",formatMoney(item.kaw)],
+  ["ALL TOTAL",formatMoney(item.total)]
+  ]:[
+  ["စာရင်းရက်",d.toLocaleDateString("en-US",{year:"numeric",month:"2-digit",day:"2-digit",weekday:"short"})],
+  ["စာရင်းလုပ်ချိန်",new Date(item.date).toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true})],
+  ["Body ရောင်းကြေး",formatMoney(item.bodySale)],
+  ["Body အနိုင်/အရှုံး",(item.bodySign==="-"?"−":"+")+Number(item.bodyWin).toLocaleString("en-US")],
+  ["Body ကော်",formatMoney(item.bodyKaw)],
+  ["Mix ရောင်းကြေး",formatMoney(item.mixSale)],
+  ["Mix အနိုင်/အရှုံး",(item.mixSign==="-"?"−":"+")+Number(item.mixWin).toLocaleString("en-US")],
+  ["Mix ကော်",formatMoney(item.mixKaw)],
+  ["ပေါင်း",formatMoney(item.sum)],
+  ["ကော်",formatMoney(item.kaw)],
+  ["ALL TOTAL",formatMoney(item.total)]
+  ];
+  div.innerHTML='<div class="week-head"><span class="week-date">'+d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"2-digit"})+'</span><span class="week-value '+(amount>0?"positive":amount<0?"negative":"zero")+'">'+formatMoney(amount)+'</span></div><div class="week-actions"><button class="copy-btn" onclick="copyRecord(\''+type+'\','+item.id+')">📋 Copy</button><button class="share-btn" onclick="shareRecord(\''+type+'\','+item.id+')">📤 Share</button></div><div class="week-actions"><button class="edit-btn" onclick="editRecord(\''+type+'\','+item.id+')">✏️ ပြန်လည်ပြုပြင်မယ်</button><button class="delete-btn" onclick="askDelete(\''+type+'\','+item.id+')">🗑️ ဖျက်</button></div><div class="week-details" id="detail-'+type+'-'+item.id+'">'+detail.map(x=>'<div class="detail-row"><span>'+x[0]+'</span><strong>'+x[1]+'</strong></div>').join("")+'</div>';
+  div.querySelector(".week-head").onclick=()=>div.querySelector(".week-details").classList.toggle("show");
+ }
+ box.appendChild(div);
+}
+showValue(totalId,total);
+}
+function renderHNWeek(){renderWeek("hn")}
+function renderLCWeek(){renderWeek("lc")}
+
+function fallbackCopy(text){
+const t=document.createElement("textarea");
+t.value=text;t.setAttribute("readonly","");
+t.style.position="fixed";t.style.top="0";t.style.left="0";t.style.opacity="0";
+document.body.appendChild(t);
+t.focus();t.select();t.setSelectionRange(0,t.value.length);
+let ok=false;
+try{ok=document.execCommand("copy");}catch(e){}
+t.remove();
+if(ok){notice("✓ Copy လုပ်ပြီးပါပြီ");return true;}
+return false;
+}
+
+
+function getWeekRecords(type){
+const key=type==="hn"?"hnRecords":"lcRecords";
+const list=JSON.parse(localStorage.getItem(key)||"[]");
+const start=weekStartFor(type),end=weekEnd(start);
+return list.filter(item=>{
+ const d=accountingDate(item);
+ return d>=start&&d<end;
+}).sort((a,b)=>accountingDate(a)-accountingDate(b));
+}
+
+function copyKaw(v){return "−"+Math.abs(Number(v)||0).toLocaleString("en-US");}
+
+function fullRecordText(type,item){
+const d=new Date(item.date);
+if(type==="hn"){
+return `1Hn.KKT စာရင်း
+Date / Time: ${d.toLocaleString("en-US",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true})}
+
+1Hn
+ရောင်းကြေး: ${item.body1Sale.toLocaleString("en-US")}
+အနိုင်/အရှုံး: ${item.body1Sign}${item.body1.toLocaleString("en-US")}
+
+KKT
+ရောင်းကြေး: ${item.body2Sale.toLocaleString("en-US")}
+အနိုင်/အရှုံး: ${item.body2Sign}${item.body2.toLocaleString("en-US")}
+
+Body ALL: ${formatMoney(item.body)}
+
+Mix - 1Hn
+ရောင်းကြေး: ${item.mix1Sale.toLocaleString("en-US")}
+အနိုင်/အရှုံး: ${item.mix1Sign}${item.mix1.toLocaleString("en-US")}
+ကော်: ${copyKaw(item.mix1Kaw)}
+
+Mix - KKT
+ရောင်းကြေး: ${item.mix2Sale.toLocaleString("en-US")}
+အနိုင်/အရှုံး: ${item.mix2Sign}${item.mix2.toLocaleString("en-US")}
+ကော်: ${copyKaw(item.mix2Kaw)}
+
+Mix ALL: ${formatMoney(item.mix)}
+
+📊 နောက်ဆုံးရလဒ်
+Body ALL ÷ 2: ${formatMoney(item.bodyFinal)}
+Mix ALL ÷ 2: ${formatMoney(item.mixFinal)}
+ပေါင်း: ${formatMoney(item.sum)}
+ကော်: ${copyKaw(item.kaw)}
+နောက်ဆုံး Total: ${formatMoney(item.total)}`;
+}
+return `LC စာရင်း
+Date / Time: ${d.toLocaleString("en-US",{year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true})}
+
+Body
+ရောင်းကြေး: ${item.bodySale.toLocaleString("en-US")}
+အနိုင်/အရှုံး: ${item.bodySign}${item.bodyWin.toLocaleString("en-US")}
+ကော်: ${copyKaw(item.bodyKaw)}
+Body Total: ${formatMoney(item.body)}
+
+Mix
+ရောင်းကြေး: ${item.mixSale.toLocaleString("en-US")}
+အနိုင်/အရှုံး: ${item.mixSign}${item.mixWin.toLocaleString("en-US")}
+ကော်: ${copyKaw(item.mixKaw)}
+Mix Total: ${formatMoney(item.mix)}
+
+ပေါင်း: ${formatMoney(item.sum)}
+ကော်: ${copyKaw(item.kaw)}
+နောက်ဆုံး Total: ${formatMoney(item.total)}`;
+}
+
+function weekText(type){
+const start=weekStartFor(type), records=getWeekRecords(type);
+const byDay={};
+records.forEach(item=>{byDay[localDateKey(accountingDate(item))]=item;});
+let text=(type==="hn"?"1Hn.KKT":"LC")+" တစ်ပတ်စာ (ငွေရှင်းပတ်)\n"+rangeText(start)+"\n\n";
+let total=0;
+for(let i=0;i<7;i++){
+ const d=new Date(start);d.setDate(d.getDate()+i);
+ const item=byDay[localDateKey(d)];
+ const amount=item?Number(item.total)||0:0;
+ total+=amount;
+ text+=`${d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"2-digit"})}  ${formatMoney(amount)}${item?"":"  (စာရင်းမရှိသေးပါ)"}\n`;
+}
+text+=`\nတစ်ပတ်စာ TOTAL: ${formatMoney(total)}`;
+return text;
+}
+
+async function shareText(text,successText){
+try{
+ if(navigator.share){
+  await navigator.share({title:"Ball စာရင်း",text:text});
+  notice(successText||"✓ Share ပြီးပါပြီ");
+  return;
+ }
+}catch(e){
+ if(e&&e.name==="AbortError")return;
+}
+// Android WebView/file preview may not expose Web Share. Use the same
+// user-gesture copy fallback so the text is still available.
+if(copyToClipboard(text)){
+ notice("📋 Share မရသေးလို့ Copy လုပ်ပြီးပါပြီ");
+}else{
+ showTextFallback(text,"Share");
+}
+}
+
+function copyToClipboard(text){
+try{
+ const t=document.createElement("textarea");
+ t.value=text;t.setAttribute("readonly","");
+ t.style.position="fixed";t.style.top="0";t.style.left="-9999px";
+ document.body.appendChild(t);t.focus();t.select();t.setSelectionRange(0,t.value.length);
+ const ok=document.execCommand("copy");
+ t.remove();
+ if(ok)return true;
+}catch(e){}
+return false;
+}
+
+function showTextFallback(text,mode){
+ let overlay=document.getElementById("textFallbackOverlay");
+ if(!overlay){
+  overlay=document.createElement("div");
+  overlay.id="textFallbackOverlay";
+  overlay.className="confirm-overlay";
+  overlay.innerHTML='<div class="confirm-box"><h3 id="fallbackTitle">စာရင်း</h3><textarea id="fallbackText" readonly style="width:100%;height:240px;margin-top:12px;padding:10px;border:1px solid #d8d0e8;border-radius:10px;font-size:14px;resize:none"></textarea><button class="copy-btn" id="fallbackCopyBtn">📋 Copy</button><button class="cancel-btn" id="fallbackCloseBtn">ပိတ်မယ်</button></div>';
+  document.body.appendChild(overlay);
+  document.getElementById("fallbackCloseBtn").onclick=()=>overlay.classList.remove("show");
+  document.getElementById("fallbackCopyBtn").onclick=()=>{const v=document.getElementById("fallbackText").value;if(copyToClipboard(v)){notice("✓ Copy လုပ်ပြီးပါပြီ");overlay.classList.remove("show");}else{document.getElementById("fallbackText").focus();document.getElementById("fallbackText").select();notice("စာသားကို Select လုပ်ထားပါတယ် — Copy လုပ်နိုင်ပါတယ်");}};
+ }
+ document.getElementById("fallbackTitle").textContent=mode==="Share"?"📤 Share မရသေးပါ":"📋 Copy";
+ document.getElementById("fallbackText").value=text;
+ overlay.classList.add("show");
+}
+
+function copyText(text){
+if(copyToClipboard(text)){notice("✓ Copy လုပ်ပြီးပါပြီ");return;}
+showTextFallback(text,"Copy");
+}
+
+
+function editRecord(type,id){
+const key=type==="hn"?"hnRecords":"lcRecords";
+const list=JSON.parse(localStorage.getItem(key)||"[]");
+const item=list.find(x=>x.id===id);
+if(!item)return;
+editTarget={type,id};
+if(type==="hn"){
+ document.getElementById("body1Sale").value=(item.body1Sale!=null?item.body1Sale:"");
+ document.getElementById("body1Sign").value=(item.body1Sign!=null?item.body1Sign:"+");
+ document.getElementById("body1").value=(item.body1!=null?item.body1:"");
+ document.getElementById("body2Sale").value=(item.body2Sale!=null?item.body2Sale:"");
+ document.getElementById("body2Sign").value=(item.body2Sign!=null?item.body2Sign:"+");
+ document.getElementById("body2").value=(item.body2!=null?item.body2:"");
+ document.getElementById("mix1Sale").value=(item.mix1Sale!=null?item.mix1Sale:"");
+ document.getElementById("mix1Sign").value=(item.mix1Sign!=null?item.mix1Sign:"+");
+ document.getElementById("mix1").value=(item.mix1!=null?item.mix1:"");
+ document.getElementById("mix1Kaw").value=(item.mix1Kaw!=null?item.mix1Kaw:"");
+ document.getElementById("mix2Sale").value=(item.mix2Sale!=null?item.mix2Sale:"");
+ document.getElementById("mix2Sign").value=(item.mix2Sign!=null?item.mix2Sign:"+");
+ document.getElementById("mix2").value=(item.mix2!=null?item.mix2:"");
+ document.getElementById("mix2Kaw").value=(item.mix2Kaw!=null?item.mix2Kaw:"");
+ document.getElementById("hnSaveBtn").textContent="💾 ပြင်ပြီး စာရင်းသိမ်းမယ်";
+ calculateHN();showPage("hn");
+}else{
+ document.getElementById("lcBodySale").value=(item.bodySale!=null?item.bodySale:"");
+ document.getElementById("lcBodySign").value=(item.bodySign!=null?item.bodySign:"+");
+ document.getElementById("lcBodyWin").value=(item.bodyWin!=null?item.bodyWin:"");
+ document.getElementById("lcBodyKaw").value=(item.bodyKaw!=null?item.bodyKaw:"");
+ document.getElementById("lcMixSale").value=(item.mixSale!=null?item.mixSale:"");
+ document.getElementById("lcMixSign").value=(item.mixSign!=null?item.mixSign:"+");
+ document.getElementById("lcMixWin").value=(item.mixWin!=null?item.mixWin:"");
+ document.getElementById("lcMixKaw").value=(item.mixKaw!=null?item.mixKaw:"");
+ document.getElementById("lcSaveBtn").textContent="💾 ပြင်ပြီး စာရင်းသိမ်းမယ်";
+ calculateLC();showPage("lc");
+}
+notice("✏️ စာရင်းကို ပြန်ပြင်နိုင်ပါပြီ");
+}
+
+function copyRecord(type,id){
+const key=type==="hn"?"hnRecords":"lcRecords";
+const list=JSON.parse(localStorage.getItem(key)||"[]");
+const item=list.find(x=>x.id===id);if(!item)return;
+copyText(fullRecordText(type,item));
+}
+
+function shareRecord(type,id){
+const key=type==="hn"?"hnRecords":"lcRecords";
+const list=JSON.parse(localStorage.getItem(key)||"[]");
+const item=list.find(x=>x.id===id);if(!item)return;
+shareText(fullRecordText(type,item),"✓ Share ပြီးပါပြီ");
+}
+
+function copyWeek(type){
+copyText(weekText(type));
+}
+
+function shareWeek(type){
+shareText(weekText(type),"✓ တစ်ပတ်စာ Share ပြီးပါပြီ");
+}
+
+function askDelete(type,id){
+deleteTarget={type,id};
+editTarget=null;
+pendingSaveType=null;
+document.getElementById("confirmTitle").textContent="စာရင်းဖျက်မလား?";
+document.getElementById("confirmText").textContent="ဒီစာရင်းကို ဖျက်လိုက်ရင် ပြန်ယူလို့မရပါ။";
+document.getElementById("confirmOk").textContent="ဖျက်မယ်";
+document.getElementById("confirmOk").className="delete-btn";
+document.getElementById("confirmOverlay").classList.add("show");
+}
+function closeConfirm(){deleteTarget=null;pendingSaveType=null;editTarget=null;document.getElementById("confirmOverlay").classList.remove("show")}
+function confirmDelete(){
+if(!deleteTarget)return;
+const key=deleteTarget.type==="hn"?"hnRecords":"lcRecords";
+let list=JSON.parse(localStorage.getItem(key)||"[]");
+list=list.filter(x=>x.id!==deleteTarget.id);
+localStorage.setItem(key,JSON.stringify(list));
+cloudDelete(deleteTarget.type,deleteTarget.id);
+const type=deleteTarget.type;closeConfirm();
+type==="hn"?renderHNWeek():renderLCWeek();
+notice("✓ စာရင်းဖျက်ပြီးပါပြီ");
+}
+
+document.querySelectorAll("#hn input,#hn select").forEach(e=>{
+  e.addEventListener("input",calculateHN);
+  e.addEventListener("change",calculateHN);
+});
+// 1Hn.KKT calculation is always recalculated when returning to the page.
+const _originalShowPage = showPage;
+showPage = function(id){
+  _originalShowPage(id);
+  if(id==="hn") calculateHN();
+};
+document.querySelectorAll("#lc input,#lc select").forEach(e=>{e.addEventListener("input",calculateLC);e.addEventListener("change",calculateLC)});
+calculateHN();calculateLC();setupMoneyNext();
+</script>
+</body>
+</html>
